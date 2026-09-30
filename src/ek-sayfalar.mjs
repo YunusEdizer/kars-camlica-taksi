@@ -1,0 +1,153 @@
+// İlçe, hastane, üniversite, şehir turu ve gece sayfaları.
+// Mesafe/süreler 16.09.2026'da Google Haritalar'da durağın konumundan (40.6082555, 43.100122) ölçüldü.
+
+const ILCELER = [
+  { slug: "selim", aciklamaNot: "Hastane, havalimanı ve otogar yolculuklarında kapınızdan alıyoruz.", ad: "Selim", a: "Selim'e", dan: "Selim'den", km: "~33 km", sure: "~33 dk", yon: "güneybatısında",
+    not: "Hastaneye, havalimanına ya da otogara giden Selimliler için sık kullanılan bir güzergâh." },
+  { slug: "digor", aciklamaNot: "İlçe merkezi ve çevresindeki tarihi yapılara gidiş-dönüş.", ad: "Digor", a: "Digor'a", dan: "Digor'dan", km: "~43 km", sure: "~38 dk", yon: "güneydoğusunda",
+    not: "Digor çevresindeki tarihi yapıları görmek isteyen gezginler için Kars'tan gidiş-dönüş de planlanabilir." },
+  { slug: "kagizman", aciklamaNot: "Aras vadisinden Kars'a; saat ve bekleme baştan belli.", ad: "Kağızman", a: "Kağızman'a", dan: "Kağızman'dan", km: "~72 km", sure: "~1 sa 10 dk", yon: "güneyinde",
+    not: "Aras vadisindeki Kağızman, Kars'a en uzak ilçelerden; uzun yolda saat ve bekleme süresini baştan konuşuruz." },
+  { slug: "arpacay", aciklamaNot: "Resmi daire, hastane ve çarşı işleri için gidiş-dönüş.", ad: "Arpaçay", a: "Arpaçay'a", dan: "Arpaçay'dan", km: "~39 km", sure: "~37 dk", yon: "kuzeydoğusunda",
+    not: "Arpaçay ile Kars merkez arasında resmi daire, hastane ve çarşı işleri için gidiş-dönüş yapıyoruz." },
+  { slug: "akyaka", aciklamaNot: "Düğün, bayram ziyareti ve hastane yolculukları için önceden ayırtın.", ad: "Akyaka", a: "Akyaka'ya", dan: "Akyaka'dan", km: "~61 km", sure: "~51 dk", yon: "doğusunda",
+    not: "Akyaka ile Kars arasında düğün, bayram ziyareti ya da hastane yolculuğu için önceden ayırtabilirsiniz." },
+  { slug: "susuz", aciklamaNot: "Kars'a en yakın ilçelerden; aynı gün gidiş-dönüş kolay.", ad: "Susuz", a: "Susuz'a", dan: "Susuz'dan", km: "~25 km", sure: "~24 dk", yon: "kuzeyinde",
+    not: "Kars'a en yakın ilçelerden Susuz'a kısa sürede ulaşırız; aynı gün gidiş-dönüş kolayca planlanır." },
+];
+
+export default function ekSayfalar(c) {
+  const tel = c.telefonGorunen;
+
+  const ilceSayfalari = ILCELER.map((i) => ({
+    yol: `/${i.slug}-taksi`,
+    grup: "ilce",
+    kisa: i.ad,
+    ikon: "yol",
+    baslik: `Kars – ${i.ad} Taksi | ${i.km.replace("~", "")}, ${i.sure.replace("~", "")} · Çamlıca Taksi`,
+    aciklama: `Kars – ${i.ad} arası 7/24 taksi (${i.km}, ${i.sure}). ${i.aciklamaNot} Fiyat yola çıkmadan belli. ${tel}`,
+    h1: `Kars – ${i.ad} Taksi`,
+    ust: `${i.ad} ilçesi · Kars'ın ${i.yon}`,
+    ozet: `${i.km} · ${i.sure}`,
+    giris: `${i.dan} Kars'a, Kars'tan ${i.a} taksi. Hastane randevusu, havalimanı, otogar ya da tren garı için alır, dönüşte bırakırız. ${i.not}`,
+    mesafe: [[`Kars merkez → ${i.ad}`, i.km, i.sure]],
+    maddeler: [
+      ["sehir", `${i.dan} Kars'a`, "Hastane randevusu, resmi daire ve çarşı işleri için sabah alır, işiniz bitince geri götürürüz."],
+      ["ucak", "Havalimanı ve gar bağlantısı", `Kars Havalimanı, tren garı veya otogardan doğrudan ${i.a}.`],
+      ["saat", "Bekleme dahil gidiş-dönüş", "İşiniz sürerken beklememizi isterseniz süreyi ve ücreti baştan konuşuruz."],
+      ["fis", "Fiyat yola çıkmadan belli", "İlçeler arası yolculukta ücret kişi sayısı ve beklemeye göre telefonda netleşir."],
+    ],
+    waMetin: `Merhaba, ${i.ad} – Kars arası taksi istiyorum. Tarih / saat: `,
+    plan: ["Kars merkez", i.ad],
+    sss: [
+      [`Kars'tan ${i.a} taksi ne kadar sürer?`, `Durağımızdan ${i.ad} ilçe merkezine yol yaklaşık ${i.km.replace("~", "")}; normal şartlarda ${i.sure.replace("~", "")} sürer. Kışın yol durumuna göre uzayabilir.`],
+      [`${i.dan} gelip beni alır mısınız?`, `Evet. ${i.dan} alıp Kars'a getiriyoruz; adresinizi ya da konumunuzu WhatsApp'tan iletmeniz yeterli.`],
+      [`${i.ad} – Kars taksi ücreti nasıl belirleniyor?`, "İlçeler arası yolculuklarda ücret; kişi sayısı, bekleme süresi ve gidiş-dönüş olup olmamasına göre yola çıkmadan telefonda belirlenir."],
+    ],
+  }));
+
+  return [
+    ...ilceSayfalari,
+    {
+      yol: "/kars-hastane-taksi",
+      grup: "sehir",
+      kisa: "Hastane",
+      ikon: "hastane",
+      baslik: "Kars Hastane Taksi | Randevu, Taburcu ve Hasta Yakını, 7/24",
+      aciklama: `Kars Harakani Devlet Hastanesi ve Kafkas Üniversitesi Hastanesi'ne 7/24 taksi. Randevuya yetiştirir, taburcu sonrası evinize bırakırız. ${tel}`,
+      h1: "Kars Hastane Taksi",
+      ust: "Harakani Devlet · Kafkas Üniversitesi Hastanesi",
+      ozet: "Randevu, taburcu ve hasta yakını yolculukları.",
+      giris: "Randevu saatinize göre kapınızdan alır, hastane girişine bırakırız. Taburcu olan hastalar ve hasta yakınları için gece gündüz hizmet.",
+      mesafe: [["Durak → Harakani Devlet Hastanesi", "~6 km", "~12 dk"]],
+      maddeler: [
+        ["saat", "Randevuya yetiştiririz", "Randevu saatinizi söyleyin, trafiği hesaba katarak erken yola çıkalım."],
+        ["kalkan", "Taburcu ve kontrol dönüşü", "Hastaneden evinize ya da ilçenize kapıdan kapıya."],
+        ["yol", "İlçelerden hastaneye", "Selim, Digor, Susuz, Arpaçay ve diğer ilçelerden Kars'taki hastanelere gidiş-dönüş."],
+        ["ay", "Gece de ulaşın", "Gece hastaneden çıkanlar ve hasta yakınına gidenler için 7/24."],
+      ],
+      waMetin: "Merhaba, hastaneye taksi istiyorum. Hastane / saat: ",
+      plan: ["", "Kars Harakani Devlet Hastanesi"],
+      sss: [
+        ["Acil durumda taksi mi çağırmalıyım?", "Hayati tehlike içeren acil durumlarda taksi değil, 112 Acil Çağrı Merkezi aranmalıdır. Acil olmayan hastane yolculukları için bize ulaşabilirsiniz."],
+        ["Hangi hastanelere gidiyorsunuz?", "Kars Harakani Devlet Hastanesi ve Kafkas Üniversitesi Sağlık Araştırma ve Uygulama Hastanesi başta olmak üzere Kars'taki tüm hastane, sağlık merkezi ve kliniklere."],
+        ["Muayene bitene kadar bekleyebilir misiniz?", "Evet. Muayene süresine göre bekleme ya da çıkışta tekrar alma seçeneğini telefonda konuşuruz."],
+      ],
+    },
+    {
+      yol: "/kafkas-universitesi-taksi",
+      grup: "sehir",
+      kisa: "Kafkas Üniversitesi",
+      ikon: "kep",
+      baslik: "Kafkas Üniversitesi Taksi | Kampüs, Yurt, Otogar, 7/24",
+      aciklama: `Kafkas Üniversitesi, yurtlar ve Kars merkez arasında 7/24 taksi. Dönem başı ve sonunda bavullarınızla otogara, gara ya da havalimanına. ${tel}`,
+      h1: "Kafkas Üniversitesi Taksi",
+      ust: "Öğrenciler · Personel · Ziyaretçiler",
+      ozet: "Kampüs, yurt, otogar ve havalimanı arası.",
+      giris: "Kampüs ile çarşı, yurt, otogar ve havalimanı arasında taksi. Dönem başında bavullarla, sınav sabahı erkenden, gece geç saatte — bir mesaj yeterli.",
+      mesafe: [["Durak → Kafkas Üniversitesi", "~2 km", "~6 dk"], ["Durak → Otogar", "~7 km", "~12 dk"], ["Durak → Havalimanı", "~8 km", "~15 dk"]],
+      maddeler: [
+        ["bavul", "Dönem başı ve sonu", "Bavullarınızla yurttan otogara, gara ya da havalimanına."],
+        ["ay", "Gece dönüşleri", "Kampüse ya da yurda gece geç saatte kapıya kadar."],
+        ["saat", "Sınav sabahı", "Erken saatte kapınızda; geç kalma derdi yok."],
+        ["fis", "Taksimetre ile", "Şehir içi yolculuklar taksimetre ile ücretlendirilir."],
+      ],
+      waMetin: "Merhaba, Kafkas Üniversitesi için taksi istiyorum. Konumum: ",
+      plan: ["Kafkas Üniversitesi", "Kars Otogarı"],
+      sss: [
+        ["Birkaç arkadaş birlikte gidebilir miyiz?", "Evet, taksinin yolcu kapasitesi kadar kişi birlikte gidebilir; şehir içinde ücret kişi başı değil, taksimetreye göre yolculuk başıdır."],
+        ["Ailemi otogardan ya da havalimanından karşılayabilir misiniz?", "Evet. Varış saatini ve iletişim numarasını WhatsApp'tan iletin, otogar ya da havalimanında karşılayıp istediğiniz yere götürelim."],
+      ],
+    },
+    {
+      yol: "/kars-sehir-turu-taksi",
+      grup: "sehir",
+      kisa: "Şehir turu",
+      ikon: "pusula",
+      baslik: "Kars Şehir Turu Taksi | Kale, Taş Köprü ve Tarihi Yapılar",
+      aciklama: `Kars'ı taksiyle gezin: Kars Kalesi, Taş Köprü, Kümbet Camii, Fethiye Camii ve Baltık tarzı binalar. Ani ile aynı güne sığdırılabilir. ${tel}`,
+      h1: "Kars Şehir Turu Taksi",
+      ust: "Kale · Taş Köprü · Baltık mimarisi",
+      ozet: "Kale, Taş Köprü, tarihi camiler; bekleme dahil.",
+      giris: "Zamanınız kısıtlıysa Kars'ın öne çıkan noktalarını taksiyle gezin: sizi nokta nokta götürür, siz gezerken bekleriz. İsterseniz aynı gün Ani'yi de ekleyelim.",
+      mesafe: [["Durak → Kars Kalesi", "şehir içi", "~6 dk"], ["Kars merkez → Ani Ören Yeri", "~46 km", "~40 dk"]],
+      maddeler: [
+        ["ani", "Kars Kalesi ve Taş Köprü", "Şehrin simgesi kale ve eteğindeki tarihi köprü; şehir manzarası için ideal."],
+        ["sehir", "Baltık tarzı binalar", "Rus döneminden kalan taş binaların bulunduğu merkez sokakları."],
+        ["pusula", "Kümbet ve Fethiye camileri", "Farklı dönemlerin izini taşıyan tarihi yapılar."],
+        ["saat", "Bekleme dahil", "Her noktada gezinizi yapın, araç sizi bekler; süre ve ücret baştan konuşulur."],
+      ],
+      waMetin: "Merhaba, Kars şehir turu için taksi istiyorum. Tarih / kişi sayısı: ",
+      plan: ["Kars merkez", "Kars Kalesi"],
+      sss: [
+        ["Kars şehir turu ne kadar sürer?", "Kalede, Taş Köprü çevresinde ve merkez sokaklarda durarak yapılan bir tur çoğu ziyaretçi için birkaç saat sürer. Süreyi isteğinize göre birlikte planlarız."],
+        ["Ani ile aynı gün gezilebilir mi?", "Evet. Ani, Kars merkezden yaklaşık 46 km (40 dakika). Sabah Ani, öğleden sonra şehir turu gibi bir plan yapabiliriz."],
+      ],
+    },
+    {
+      yol: "/kars-gece-taksi",
+      grup: "sehir",
+      kisa: "Gece taksi",
+      ikon: "ay",
+      baslik: "Kars Gece Taksi | Gece Yarısı da Açık · Çamlıca Taksi",
+      aciklama: `Kars'ta gece taksi: gece yarısı havalimanı, hastane, otogar ve eve dönüş. Çamlıca Taksi 7/24 açık, bayramda da. ${tel}`,
+      h1: "Kars Gece Taksi",
+      ust: "Gece yarısı · Bayram · Tatil",
+      ozet: "Gece yarısı havalimanı, hastane, otogar.",
+      giris: "Kars'ta gece taksi bulmak zor olabilir; biz gece yarısı da telefonu açarız. Havalimanı, hastane, otogar ya da eve dönüş için arayın.",
+      mesafe: [["Durak → Havalimanı", "~8 km", "~15 dk"], ["Durak → Harakani Devlet Hastanesi", "~6 km", "~12 dk"], ["Durak → Otogar", "~7 km", "~12 dk"]],
+      maddeler: [
+        ["ay", "Gece yarısı da açık", "Saatin önemi yok; bir hatta ulaşamazsanız diğer hattı arayın."],
+        ["ucak", "Gece uçuşları ve otobüsler", "İniş ya da varış saatinize göre karşılama."],
+        ["kalkan", "Kapıya kadar", "Gece geç saatte evinizin ya da otelinizin kapısına bırakırız."],
+        ["kar", "Kış gecelerinde", "Soğuk ve karlı gecelerde dışarıda beklemeyin, araç size gelsin."],
+      ],
+      waMetin: "Merhaba, gece için taksi istiyorum. Konumum: ",
+      plan: ["", ""],
+      sss: [
+        ["Gece taksi ücreti farklı mı?", "Şehir içinde taksimetre çalışır; gece tarifesi uygulanıp uygulanmadığı yürürlükteki belediye tarifesine bağlıdır. Yola çıkmadan sorabilirsiniz."],
+        ["Gece telefona ulaşamazsam ne yapmalıyım?", `Önce ${tel} hattını, ulaşamazsanız sitedeki diğer hatları arayın; WhatsApp'tan konumunuzu da bırakabilirsiniz.`],
+      ],
+    },
+  ];
+}

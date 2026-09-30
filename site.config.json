@@ -1,0 +1,37 @@
+{
+  "domain": "https://www.camlicataksikars.com",
+  "marka": "Kars Merkez Çamlıca Taksi",
+  "durak": "Çamlıca Taksi Durağı",
+  "plaka": "36 T 0089",
+  "sofor": "",
+
+  "telefon": "+905312733585",
+  "telefonGorunen": "0531 273 35 85",
+  "whatsapp": "905312733585",
+  "digerHatlar": [
+    { "telefon": "+905412852915", "gorunen": "0541 285 29 15", "etiket": "2. hat", "etiketEn": "Line 2", "whatsapp": "905412852915" },
+    { "telefon": "+905366168935", "gorunen": "0536 616 89 35", "etiket": "Taksi (36 T 0089)", "etiketEn": "Taxi (36 T 0089)" }
+  ],
+  "profilTelefonu": "+905366168935",
+
+  "adres": {
+    "sokak": "Faikbey Caddesi",
+    "mahalle": "",
+    "ilce": "Merkez",
+    "il": "Kars",
+    "postaKodu": "36000"
+  },
+  "konum": { "lat": 40.6082555, "lng": 43.100122 },
+
+  "googleHaritaLinki": "https://www.google.com/maps?cid=2235030596299504336",
+  "googleYorumLinki": "",
+  "googlePuan": "4,8",
+  "googleDogrulama": "Tin8OwHaEyhAWW9YQkxvHIcgsSDuy86SWOhWv10Bc4o",
+
+  "takip": {
+    "ga4": "",
+    "googleAdsId": "",
+    "aramaDonusumEtiketi": "",
+    "whatsappDonusumEtiketi": ""
+  }
+}
